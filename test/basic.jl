@@ -1,13 +1,13 @@
-using SymbolicSAT
+using SymbolicSMT
 using SymbolicUtils
 using SymbolicUtils: Sym
 using Test
 
 @testset "Basic Functionality Tests" begin
     # Test package loads
-    @test isdefined(SymbolicSAT, :Constraints)
-    @test isdefined(SymbolicSAT, :issatisfiable)
-    @test isdefined(SymbolicSAT, :isprovable)
+    @test isdefined(SymbolicSMT, :Constraints)
+    @test isdefined(SymbolicSMT, :issatisfiable)
+    @test isdefined(SymbolicSMT, :isprovable)
 
     # Test symbolic variable creation
     x = Sym{Real}(:x)

@@ -1,16 +1,16 @@
-using Documenter, SymbolicSAT, Symbolics
+using Documenter, SymbolicSMT, Symbolics
 
 # Create custom documenter function
 function make_docs()
     makedocs(
-        sitename="SymbolicSAT.jl",
+        sitename="SymbolicSMT.jl",
         authors="Shashi Gowda <shashigowda91@gmail.com>",
-        modules=[SymbolicSAT],
+        modules=[SymbolicSMT],
         clean=true,
         doctest=false, # Disable doctests for now since we use Z3
         format=Documenter.HTML(
             prettyurls=get(ENV, "CI", "false") == "true",
-            canonical="https://JuliaSymbolics.github.io/SymbolicSAT.jl/stable/",
+            canonical="https://JuliaSymbolics.github.io/SymbolicSMT.jl/stable/",
             assets=String[],
             mathengine=Documenter.MathJax3(Dict(
                 :loader => Dict("load" => ["[tex]/physics"]),
@@ -43,7 +43,7 @@ end
 make_docs()
 
 deploydocs(
-    repo="github.com/JuliaSymbolics/SymbolicSAT.jl.git",
+    repo="github.com/JuliaSymbolics/SymbolicSMT.jl.git",
     target="build",
     branch="gh-pages",
     devbranch="master",

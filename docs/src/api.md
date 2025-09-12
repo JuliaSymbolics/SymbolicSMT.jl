@@ -1,6 +1,6 @@
 # API Reference
 
-This page contains the complete API documentation for SymbolicSAT.jl.
+This page contains the complete API documentation for SymbolicSMT.jl.
 
 ## Core Types
 

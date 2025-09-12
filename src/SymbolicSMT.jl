@@ -1,4 +1,4 @@
-module SymbolicSAT
+module SymbolicSMT
 
 using SymbolicUtils
 using SymbolicUtils: Sym, Term, operation, arguments, Symbolic, symtype, istree, iscall
@@ -26,7 +26,7 @@ A Z3 expression equivalent to the input term.
 
 # Examples
 ```julia
-using SymbolicUtils, SymbolicSAT, Z3
+using SymbolicUtils, SymbolicSMT, Z3
 @syms x::Real
 ctx = Context()
 z3_expr = to_z3(x > 0, ctx)
@@ -152,7 +152,7 @@ to Z3 format and added to the solver upon construction.
 
 # Examples
 ```julia
-using SymbolicUtils, SymbolicSAT
+using SymbolicUtils, SymbolicSMT
 @syms x::Real y::Real
 
 # Single constraint
@@ -211,7 +211,7 @@ both the constraints and the expression true.
 
 # Examples
 ```julia
-using SymbolicUtils, SymbolicSAT
+using SymbolicUtils, SymbolicSMT
 @syms x::Real y::Real
 
 constraints = Constraints([x > 0, y > 0])
@@ -256,7 +256,7 @@ the expression is unsatisfiable under the constraints.
 
 # Examples
 ```julia
-using SymbolicUtils, SymbolicSAT
+using SymbolicUtils, SymbolicSMT
 @syms x::Real y::Real
 
 constraints = Constraints([x >= 0, y >= 0])
@@ -312,7 +312,7 @@ original expression unchanged.
 
 # Examples
 ```julia
-using SymbolicUtils, SymbolicSAT
+using SymbolicUtils, SymbolicSMT
 @syms x::Real
 
 constraints = Constraints([x > 5])
@@ -345,14 +345,14 @@ unwraps them to SymbolicUtils expressions, and creates the constraint set.
 
 # Examples
 ```julia
-using Symbolics, SymbolicSAT
+using Symbolics, SymbolicSMT
 
 @variables x::Real y::Real
 
 # Create constraints with Symbolics.jl syntax
 constraints = Constraints([x > 0, y >= 0, x + y < 10])
 
-# Use with standard SymbolicSAT functions
+# Use with standard SymbolicSMT functions
 issatisfiable(x + y > 5, constraints)
 ```
 """
@@ -381,7 +381,7 @@ unwraps them to SymbolicUtils, and delegates to the core implementation.
 
 # Examples
 ```julia
-using Symbolics, SymbolicSAT
+using Symbolics, SymbolicSMT
 
 @variables x::Real y::Real
 constraints = Constraints([x > 0, y > 0])
@@ -413,7 +413,7 @@ unwraps them to SymbolicUtils, and delegates to the core implementation.
 
 # Examples
 ```julia
-using Symbolics, SymbolicSAT
+using Symbolics, SymbolicSMT
 
 @variables x::Real y::Real
 constraints = Constraints([x >= 0, y >= 0])
@@ -447,7 +447,7 @@ and wraps boolean results back to `Num` if needed.
 
 # Examples
 ```julia
-using Symbolics, SymbolicSAT
+using Symbolics, SymbolicSMT
 
 @variables x::Real
 constraints = Constraints([x > 5])

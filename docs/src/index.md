@@ -1,8 +1,8 @@
-# SymbolicSAT.jl
+# SymbolicSMT.jl
 
 *Satisfiability solving for symbolic expressions*
 
-SymbolicSAT.jl provides an interface between [SymbolicUtils.jl](https://github.com/JuliaSymbolics/SymbolicUtils.jl) and [Symbolics.jl](https://github.com/JuliaSymbolics/Symbolics.jl) symbolic expressions and the [Z3](https://github.com/Z3Prover/z3) satisfiability modulo theories (SMT) solver. This allows you to check satisfiability and provability of symbolic boolean expressions containing arithmetic constraints.
+SymbolicSMT.jl provides an interface between [SymbolicUtils.jl](https://github.com/JuliaSymbolics/SymbolicUtils.jl) and [Symbolics.jl](https://github.com/JuliaSymbolics/Symbolics.jl) symbolic expressions and the [Z3](https://github.com/Z3Prover/z3) satisfiability modulo theories (SMT) solver. This allows you to check satisfiability and provability of symbolic boolean expressions containing arithmetic constraints.
 
 ## Features
 
@@ -17,13 +17,13 @@ SymbolicSAT.jl provides an interface between [SymbolicUtils.jl](https://github.c
 
 ```julia
 using Pkg
-Pkg.add("SymbolicSAT")
+Pkg.add("SymbolicSMT")
 ```
 
 ## Quick Example with Symbolics.jl
 
 ```julia
-using Symbolics, SymbolicSAT
+using Symbolics, SymbolicSMT
 
 # Create symbolic variables with Symbolics.jl
 @variables x::Real y::Real
@@ -47,10 +47,10 @@ resolve(x > 10, constraints)    # x > 10 (cannot determine)
 
 ## Alternative: SymbolicUtils.jl Interface
 
-SymbolicSAT.jl also supports the lower-level SymbolicUtils.jl interface:
+SymbolicSMT.jl also supports the lower-level SymbolicUtils.jl interface:
 
 ```julia
-using SymbolicUtils, SymbolicSAT
+using SymbolicUtils, SymbolicSMT
 
 @syms x::Real y::Real
 constraints = Constraints([x > 0, y > 0])
@@ -59,7 +59,7 @@ issatisfiable(x + y > 1, constraints)  # true
 
 ## Package Ecosystem
 
-SymbolicSAT.jl is part of the [JuliaSymbolics](https://github.com/JuliaSymbolics) ecosystem and works seamlessly with:
+SymbolicSMT.jl is part of the [JuliaSymbolics](https://github.com/JuliaSymbolics) ecosystem and works seamlessly with:
 
 - **[Symbolics.jl](https://github.com/JuliaSymbolics/Symbolics.jl)**: High-level symbolic computation and modeling
 - **[SymbolicUtils.jl](https://github.com/JuliaSymbolics/SymbolicUtils.jl)**: Core symbolic expression manipulation
@@ -75,5 +75,5 @@ SymbolicSAT.jl is part of the [JuliaSymbolics](https://github.com/JuliaSymbolics
 
 - **Documentation**: Browse the manual and API reference in the sidebar
 - **Examples**: Check out the tutorials for practical usage patterns
-- **Issues**: Report bugs or request features on [GitHub](https://github.com/JuliaSymbolics/SymbolicSAT.jl/issues)
+- **Issues**: Report bugs or request features on [GitHub](https://github.com/JuliaSymbolics/SymbolicSMT.jl/issues)
 - **Discussions**: Join the community on the [Julia Discourse](https://discourse.julialang.org/)
