@@ -1,4 +1,4 @@
-using Documenter, SymbolicSAT
+using Documenter, SymbolicSAT, Symbolics
 
 # Create custom documenter function
 function make_docs()
@@ -27,7 +27,8 @@ function make_docs()
             "Manual" => [
                 "manual/basics.md",
                 "manual/constraints.md",
-                "manual/sat_solving.md"
+                "manual/sat_solving.md",
+                "manual/symbolics_interface.md"
             ],
             "Tutorials" => [
                 "tutorials/basic_examples.md"
