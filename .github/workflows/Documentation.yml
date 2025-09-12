@@ -1,0 +1,44 @@
+name: Documentation
+
+on:
+  push:
+    branches:
+      - main
+    tags: '*'
+  pull_request:
+
+concurrency:
+  # Skip intermediate builds: always.
+  # Cancel intermediate builds: only if it is a pull request build.
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
+
+jobs:
+  build:
+    permissions:
+      contents: write
+      statuses: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: julia-actions/setup-julia@v2
+        with:
+          version: '1'
+      - name: Configure doc environment
+        shell: julia --project=docs --color=yes {0}
+        run: |
+          using Pkg
+          Pkg.develop(PackageSpec(path=pwd()))
+          Pkg.instantiate()
+      - uses: julia-actions/julia-buildpkg@v1
+      - uses: julia-actions/julia-docdeploy@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DOCUMENTER_KEY: ${{ secrets.DOCUMENTER_KEY }}
+      - name: Run doctests
+        shell: julia --project=docs --color=yes {0}
+        run: |
+          using Documenter: DocMeta, doctest
+          using SymbolicSAT
+          DocMeta.setdocmeta!(SymbolicSAT, :DocTestSetup, :(using SymbolicSAT); recursive=true)
+          doctest(SymbolicSAT)
