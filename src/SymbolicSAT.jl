@@ -25,7 +25,7 @@ to_z3(x::AbstractFloat, ctx) = Float64Val(x, ctx)
 
 # Helper function to handle tree processing (renamed the main tree logic)
 function to_z3_tree(term, ctx)
-    if istree(term)
+    if iscall(term)
         op = operation(term)
         args = arguments(term)
 
