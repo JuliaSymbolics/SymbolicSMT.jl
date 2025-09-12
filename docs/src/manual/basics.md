@@ -1,17 +1,17 @@
 # Basics
 
-This section covers the fundamental concepts and usage patterns in SymbolicSAT.jl.
+This section covers the fundamental concepts and usage patterns in SymbolicSMT.jl.
 
 ## Overview
 
-SymbolicSAT.jl bridges the gap between symbolic computation and satisfiability solving. It allows you to:
+SymbolicSMT.jl bridges the gap between symbolic computation and satisfiability solving. It allows you to:
 
 - Define symbolic constraints on real, integer, and boolean variables
 - Check if logical expressions are satisfiable under those constraints  
 - Prove or disprove symbolic statements
 - Simplify expressions using constraint-based reasoning
 
-## The SymbolicSAT Workflow
+## The SymbolicSMT Workflow
 
 The typical workflow involves three main steps:
 
@@ -20,7 +20,7 @@ The typical workflow involves three main steps:
 3. **Query satisfiability or provability** of expressions
 
 ```julia
-using Symbolics, SymbolicSAT
+using Symbolics, SymbolicSMT
 
 # Step 1: Create variables
 @variables x::Real y::Real
@@ -35,7 +35,7 @@ isprovable(x >= 0, constraints)        # true
 
 ## Types of Variables
 
-SymbolicSAT.jl supports different types of symbolic variables:
+SymbolicSMT.jl supports different types of symbolic variables:
 
 ### Real Variables
 
@@ -93,7 +93,7 @@ Boolean variables are useful for encoding logical relationships and conditional 
 
 ## Type System Integration
 
-SymbolicSAT.jl handles the conversion between Symbolics/SymbolicUtils types and Z3 types:
+SymbolicSMT.jl handles the conversion between Symbolics/SymbolicUtils types and Z3 types:
 
 ### Supported Type Mappings
 
@@ -117,7 +117,7 @@ constraints = Constraints([x > 0, p])  # Automatic type conversion
 The modern, user-friendly interface using `@variables`:
 
 ```julia
-using Symbolics, SymbolicSAT
+using Symbolics, SymbolicSMT
 
 @variables x::Real y::Real
 constraints = Constraints([x > 0, y > 0])
@@ -129,7 +129,7 @@ issatisfiable(x + y > 1, constraints)
 The lower-level interface for advanced users:
 
 ```julia
-using SymbolicUtils, SymbolicSAT
+using SymbolicUtils, SymbolicSMT
 
 @syms x::Real y::Real
 constraints = Constraints([x > 0, y > 0])  
@@ -158,7 +158,7 @@ Different constraint types have different computational complexity:
 
 ## Error Handling
 
-SymbolicSAT.jl provides informative error messages when expressions cannot be converted:
+SymbolicSMT.jl provides informative error messages when expressions cannot be converted:
 
 ```julia
 # This will show what failed to convert if there are unsupported operations

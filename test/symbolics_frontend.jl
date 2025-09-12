@@ -1,4 +1,4 @@
-using SymbolicSAT
+using SymbolicSMT
 using Symbolics
 using Test
 

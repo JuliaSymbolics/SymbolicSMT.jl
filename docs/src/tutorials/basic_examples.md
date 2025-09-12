@@ -1,13 +1,13 @@
 # Basic Examples
 
-This tutorial provides practical examples of using SymbolicSAT.jl for various types of problems.
+This tutorial provides practical examples of using SymbolicSMT.jl for various types of problems.
 
 ## Example 1: Planning and Scheduling
 
 Let's solve a simple resource allocation problem:
 
 ```julia
-using Symbolics, SymbolicSAT
+using Symbolics, SymbolicSMT
 
 # Define variables: time allocated to each task (in hours)
 @variables task1::Real task2::Real task3::Real

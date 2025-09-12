@@ -1,13 +1,13 @@
 # Constraints
 
-This section explains how to create and work with constraints in SymbolicSAT.jl.
+This section explains how to create and work with constraints in SymbolicSMT.jl.
 
 ## What are Constraints?
 
 Constraints are boolean expressions that define the valid domain for your variables. They represent the conditions that must be satisfied in any solution to your problem.
 
 ```julia
-using Symbolics, SymbolicSAT
+using Symbolics, SymbolicSMT
 
 @variables x::Real y::Real
 

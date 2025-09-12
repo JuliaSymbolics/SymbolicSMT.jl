@@ -1,6 +1,6 @@
 # Symbolics.jl Interface
 
-This page documents the Symbolics.jl frontend API for SymbolicSAT.jl, which provides a modern, user-friendly interface using `@variables` and `Num` types.
+This page documents the Symbolics.jl frontend API for SymbolicSMT.jl, which provides a modern, user-friendly interface using `@variables` and `Num` types.
 
 ## Overview
 
@@ -13,7 +13,7 @@ The Symbolics.jl interface wraps the core SymbolicUtils.jl backend with convenie
 The `@variables` macro is re-exported from Symbolics.jl for convenience. It creates symbolic variables with specified types:
 
 ```julia
-using SymbolicSAT  # @variables is available directly
+using SymbolicSMT  # @variables is available directly
 
 @variables x::Real y::Real z::Integer p::Bool
 ```
@@ -178,7 +178,7 @@ The interface preserves semantic meaning:
 ### Basic Workflow
 
 ```julia
-using Symbolics, SymbolicSAT
+using Symbolics, SymbolicSMT
 
 # 1. Create variables
 @variables x::Real y::Real
@@ -219,7 +219,7 @@ high_gear_fast = isprovable((gear > 3) => (vel > 50), constraints)
 ### Symbolics.jl Interface (Recommended)
 
 ```julia
-using Symbolics, SymbolicSAT
+using Symbolics, SymbolicSMT
 
 @variables x::Real y::Real
 constraints = Constraints([x > 0, y > 0])
@@ -235,7 +235,7 @@ result = issatisfiable(x + y > 1, constraints)
 ### SymbolicUtils.jl Interface
 
 ```julia
-using SymbolicUtils, SymbolicSAT
+using SymbolicUtils, SymbolicSMT
 
 @syms x::Real y::Real  
 constraints = Constraints([x > 0, y > 0])
@@ -253,7 +253,7 @@ result = issatisfiable(x + y > 1, constraints)
 Both interfaces can be used together:
 
 ```julia
-using Symbolics, SymbolicUtils, SymbolicSAT
+using Symbolics, SymbolicUtils, SymbolicSMT
 
 # Mix Symbolics and SymbolicUtils variables
 @variables x::Real          # Symbolics.Num

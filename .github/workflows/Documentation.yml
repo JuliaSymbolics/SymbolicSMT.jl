@@ -39,6 +39,6 @@ jobs:
         shell: julia --project=docs --color=yes {0}
         run: |
           using Documenter: DocMeta, doctest
-          using SymbolicSAT
-          DocMeta.setdocmeta!(SymbolicSAT, :DocTestSetup, :(using SymbolicSAT); recursive=true)
-          doctest(SymbolicSAT)
+          using SymbolicSMT
+          DocMeta.setdocmeta!(SymbolicSMT, :DocTestSetup, :(using SymbolicSMT); recursive=true)
+          doctest(SymbolicSMT)

@@ -1,4 +1,4 @@
-using SymbolicSAT
+using SymbolicSMT
 using SymbolicUtils: Sym
 using Test
 

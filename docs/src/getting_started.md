@@ -1,6 +1,6 @@
 # Getting Started
 
-This tutorial will walk you through the basics of using SymbolicSAT.jl to solve symbolic constraint problems.
+This tutorial will walk you through the basics of using SymbolicSMT.jl to solve symbolic constraint problems.
 
 ## Installation and Setup
 
@@ -8,18 +8,18 @@ First, install the required packages:
 
 ```julia
 using Pkg
-Pkg.add(["SymbolicSAT", "Symbolics"])
+Pkg.add(["SymbolicSMT", "Symbolics"])
 ```
 
 Then load the packages:
 
 ```julia
-using Symbolics, SymbolicSAT
+using Symbolics, SymbolicSMT
 ```
 
 ## Creating Symbolic Variables with Symbolics.jl
 
-SymbolicSAT.jl works seamlessly with Symbolics.jl `@variables` and `Num` types:
+SymbolicSMT.jl works seamlessly with Symbolics.jl `@variables` and `Num` types:
 
 ```julia
 @variables x::Real y::Real z::Integer p::Bool
@@ -111,7 +111,7 @@ isprovable(valid | active, constraints)  # true
 
 ## Complex Expressions
 
-SymbolicSAT.jl supports complex arithmetic and boolean expressions:
+SymbolicSMT.jl supports complex arithmetic and boolean expressions:
 
 ```julia
 @variables a::Real b::Real
@@ -142,7 +142,7 @@ For `resolve`, boolean results are returned as `Bool`, while unresolved expressi
 You can also use the lower-level SymbolicUtils.jl interface directly:
 
 ```julia
-using SymbolicUtils, SymbolicSAT
+using SymbolicUtils, SymbolicSMT
 
 @syms x::Real y::Real
 constraints = Constraints([x > 0, y > 0])
