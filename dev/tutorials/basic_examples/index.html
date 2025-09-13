@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Basic Examples · SymbolicSMT.jl</title><meta name="title" content="Basic Examples · SymbolicSMT.jl"/><meta property="og:title" content="Basic Examples · SymbolicSMT.jl"/><meta property="twitter:title" content="Basic Examples · SymbolicSMT.jl"/><meta name="description" content="Documentation for SymbolicSMT.jl."/><meta property="og:description" content="Documentation for SymbolicSMT.jl."/><meta property="twitter:description" content="Documentation for SymbolicSMT.jl."/><meta property="og:url" content="https://JuliaSymbolics.github.io/SymbolicSMT.jl/stable/tutorials/basic_examples/"/><meta property="twitter:url" content="https://JuliaSymbolics.github.io/SymbolicSMT.jl/stable/tutorials/basic_examples/"/><link rel="canonical" href="https://JuliaSymbolics.github.io/SymbolicSMT.jl/stable/tutorials/basic_examples/"/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../../">SymbolicSMT.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><a class="tocitem" href="../../getting_started/">Getting Started</a></li><li><span class="tocitem">Manual</span><ul><li><a class="tocitem" href="../../manual/basics/">Basics</a></li><li><a class="tocitem" href="../../manual/constraints/">Constraints</a></li><li><a class="tocitem" href="../../manual/sat_solving/">SAT Solving</a></li><li><a class="tocitem" href="../../manual/symbolics_interface/">Symbolics.jl Interface</a></li></ul></li><li><span class="tocitem">Tutorials</span><ul><li class="is-active"><a class="tocitem" href>Basic Examples</a><ul class="internal"><li><a class="tocitem" href="#Example-1:-Planning-and-Scheduling"><span>Example 1: Planning and Scheduling</span></a></li><li><a class="tocitem" href="#Example-2:-Geometric-Reasoning"><span>Example 2: Geometric Reasoning</span></a></li><li><a class="tocitem" href="#Example-3:-Logic-Puzzles"><span>Example 3: Logic Puzzles</span></a></li><li><a class="tocitem" href="#Example-4:-System-Configuration"><span>Example 4: System Configuration</span></a></li><li><a class="tocitem" href="#Example-5:-Financial-Modeling"><span>Example 5: Financial Modeling</span></a></li><li><a class="tocitem" href="#Example-6:-Process-Control"><span>Example 6: Process Control</span></a></li><li><a class="tocitem" href="#Example-7:-Network-Topology"><span>Example 7: Network Topology</span></a></li><li><a class="tocitem" href="#Example-8:-Hybrid-Systems"><span>Example 8: Hybrid Systems</span></a></li><li><a class="tocitem" href="#Tips-for-Effective-SAT-Solving"><span>Tips for Effective SAT Solving</span></a></li><li><a class="tocitem" href="#Common-Patterns"><span>Common Patterns</span></a></li></ul></li></ul></li><li><a class="tocitem" href="../../api/">API Reference</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Tutorials</a></li><li class="is-active"><a href>Basic Examples</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Basic Examples</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/JuliaSymbolics/SymbolicSMT.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/JuliaSymbolics/SymbolicSMT.jl/blob/master/docs/src/tutorials/basic_examples.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Basic-Examples"><a class="docs-heading-anchor" href="#Basic-Examples">Basic Examples</a><a id="Basic-Examples-1"></a><a class="docs-heading-anchor-permalink" href="#Basic-Examples" title="Permalink"></a></h1><p>This tutorial provides practical examples of using SymbolicSMT.jl for various types of problems.</p><h2 id="Example-1:-Planning-and-Scheduling"><a class="docs-heading-anchor" href="#Example-1:-Planning-and-Scheduling">Example 1: Planning and Scheduling</a><a id="Example-1:-Planning-and-Scheduling-1"></a><a class="docs-heading-anchor-permalink" href="#Example-1:-Planning-and-Scheduling" title="Permalink"></a></h2><p>Let&#39;s solve a simple resource allocation problem:</p><pre><code class="language-julia hljs">using Symbolics, SymbolicSMT
+
+# Define variables: time allocated to each task (in hours)
+@variables task1::Real task2::Real task3::Real
+
+# Constraints: budget and minimum requirements
+constraints = Constraints([
+    task1 &gt;= 2,           # Task 1 needs at least 2 hours
+    task2 &gt;= 1,           # Task 2 needs at least 1 hour  
+    task3 &gt;= 3,           # Task 3 needs at least 3 hours
+    task1 + task2 + task3 &lt;= 10  # Total budget is 10 hours
+])
+
+# Questions we can ask:
+issatisfiable(task1 + task2 + task3 == 10, constraints)  # true - can use full budget
+issatisfiable(task1 &gt; 5, constraints)                    # true - task1 can be &gt; 5
+issatisfiable(task1 &gt; 6, constraints)                    # false - would exceed budget</code></pre><h2 id="Example-2:-Geometric-Reasoning"><a class="docs-heading-anchor" href="#Example-2:-Geometric-Reasoning">Example 2: Geometric Reasoning</a><a id="Example-2:-Geometric-Reasoning-1"></a><a class="docs-heading-anchor-permalink" href="#Example-2:-Geometric-Reasoning" title="Permalink"></a></h2><p>Solve problems involving geometric shapes and relationships:</p><pre><code class="language-julia hljs">@variables x::Real y::Real
+
+# Point inside unit circle
+inside_circle = Constraints([x^2 + y^2 &lt;= 1])
+
+# Point in first quadrant
+first_quadrant = Constraints([x &gt;= 0, y &gt;= 0])
+
+# Combined constraints
+constraints = Constraints([x^2 + y^2 &lt;= 1, x &gt;= 0, y &gt;= 0])
+
+# Geometric questions:
+issatisfiable(x &gt; 0.5 &amp; y &gt; 0.5, constraints)           # Check if corner point exists
+isprovable(x &gt;= 0, constraints)                         # true - always in first quadrant  
+issatisfiable(x^2 + y^2 &gt; 0.9, constraints)            # true - can be near boundary</code></pre><h2 id="Example-3:-Logic-Puzzles"><a class="docs-heading-anchor" href="#Example-3:-Logic-Puzzles">Example 3: Logic Puzzles</a><a id="Example-3:-Logic-Puzzles-1"></a><a class="docs-heading-anchor-permalink" href="#Example-3:-Logic-Puzzles" title="Permalink"></a></h2><p>Solve propositional logic problems:</p><pre><code class="language-julia hljs">@variables alice_tall::Bool bob_tall::Bool charlie_tall::Bool
+
+# Logic puzzle constraints:
+# 1. At least one person is tall
+# 2. If Alice is tall, then Bob is not tall
+# 3. Charlie is tall if and only if exactly one of Alice/Bob is tall
+
+puzzle_constraints = Constraints([
+    alice_tall | bob_tall | charlie_tall,              # At least one tall
+    !alice_tall | !bob_tall,                           # Alice tall � Bob not tall
+    charlie_tall == ((alice_tall &amp; !bob_tall) | (!alice_tall &amp; bob_tall))  # Charlie iff exactly one
+])
+
+# Solution questions:
+issatisfiable(alice_tall &amp; !bob_tall &amp; charlie_tall, puzzle_constraints)  # Check specific solution
+isprovable(charlie_tall =&gt; (alice_tall | bob_tall), puzzle_constraints)   # Logical implication</code></pre><h2 id="Example-4:-System-Configuration"><a class="docs-heading-anchor" href="#Example-4:-System-Configuration">Example 4: System Configuration</a><a id="Example-4:-System-Configuration-1"></a><a class="docs-heading-anchor-permalink" href="#Example-4:-System-Configuration" title="Permalink"></a></h2><p>Model system configuration constraints:</p><pre><code class="language-julia hljs">@variables memory::Integer cores::Integer storage::Integer
+
+# System requirements
+system_constraints = Constraints([
+    memory &gt;= 4,           # At least 4GB RAM
+    cores &gt;= 2,            # At least 2 CPU cores
+    storage &gt;= 100,        # At least 100GB storage
+    memory * cores &lt;= 32,  # Memory-core product limit
+    storage &lt;= 1000        # Storage upper limit
+])
+
+# Configuration questions:
+issatisfiable(memory == 8 &amp; cores == 4, system_constraints)      # Valid config?
+isprovable(memory + cores &gt;= 6, system_constraints)              # Always true?
+issatisfiable(memory &gt; 16 &amp; cores &gt; 4, system_constraints)       # High-end possible?</code></pre><h2 id="Example-5:-Financial-Modeling"><a class="docs-heading-anchor" href="#Example-5:-Financial-Modeling">Example 5: Financial Modeling</a><a id="Example-5:-Financial-Modeling-1"></a><a class="docs-heading-anchor-permalink" href="#Example-5:-Financial-Modeling" title="Permalink"></a></h2><p>Model financial constraints and optimization:</p><pre><code class="language-julia hljs">@variables stocks::Real bonds::Real cash::Real
+
+# Portfolio constraints
+portfolio_constraints = Constraints([
+    stocks &gt;= 0, bonds &gt;= 0, cash &gt;= 0,    # No short selling
+    stocks + bonds + cash == 100000,       # Total portfolio value
+    stocks &lt;= 60000,                       # Max 60% in stocks
+    cash &gt;= 10000                          # Minimum cash reserve
+])
+
+# Investment questions:
+issatisfiable(stocks &gt; 50000, portfolio_constraints)              # Can we have &gt;50% stocks?
+isprovable(bonds + cash &gt;= 40000, portfolio_constraints)          # Always have 40%+ in bonds/cash?
+resolve(cash &gt;= 10000, portfolio_constraints)                     # true - always satisfied</code></pre><h2 id="Example-6:-Process-Control"><a class="docs-heading-anchor" href="#Example-6:-Process-Control">Example 6: Process Control</a><a id="Example-6:-Process-Control-1"></a><a class="docs-heading-anchor-permalink" href="#Example-6:-Process-Control" title="Permalink"></a></h2><p>Model control system constraints:</p><pre><code class="language-julia hljs">@variables temperature::Real pressure::Real flow_rate::Real
+
+# Safe operating constraints
+safety_constraints = Constraints([
+    temperature &gt;= 20, temperature &lt;= 80,     # Temperature range
+    pressure &gt;= 1, pressure &lt;= 5,             # Pressure range  
+    flow_rate &gt;= 0, flow_rate &lt;= 100,         # Flow rate range
+    temperature * pressure &lt;= 300,            # Safety interlock
+    flow_rate &lt;= 2 * pressure                 # Flow depends on pressure
+])
+
+# Safety verification:
+isprovable(temperature &lt;= 80, safety_constraints)                 # Always safe temp?
+issatisfiable(pressure &gt; 4 &amp; flow_rate &gt; 8, safety_constraints)  # High pressure/flow possible?
+resolve(temperature &gt; 60, safety_constraints)                     # Can we run hot?</code></pre><h2 id="Example-7:-Network-Topology"><a class="docs-heading-anchor" href="#Example-7:-Network-Topology">Example 7: Network Topology</a><a id="Example-7:-Network-Topology-1"></a><a class="docs-heading-anchor-permalink" href="#Example-7:-Network-Topology" title="Permalink"></a></h2><p>Model network connectivity constraints:</p><pre><code class="language-julia hljs">@variables node1_active::Bool node2_active::Bool node3_active::Bool
+@variables link12::Bool link13::Bool link23::Bool
+
+# Network constraints
+network_constraints = Constraints([
+    # Links exist only if both nodes are active
+    link12 =&gt; (node1_active &amp; node2_active),
+    link13 =&gt; (node1_active &amp; node3_active), 
+    link23 =&gt; (node2_active &amp; node3_active),
+    
+    # At least one node must be active
+    node1_active | node2_active | node3_active,
+    
+    # Network must be connected (at least one link if multiple nodes)
+    (node1_active &amp; node2_active) =&gt; link12,
+    (node1_active &amp; node3_active) =&gt; link13,
+    (node2_active &amp; node3_active) =&gt; link23
+])
+
+# Network analysis:
+issatisfiable(node1_active &amp; node2_active &amp; !link12, network_constraints)  # false
+isprovable(link12 =&gt; (node1_active &amp; node2_active), network_constraints)   # true</code></pre><h2 id="Example-8:-Hybrid-Systems"><a class="docs-heading-anchor" href="#Example-8:-Hybrid-Systems">Example 8: Hybrid Systems</a><a id="Example-8:-Hybrid-Systems-1"></a><a class="docs-heading-anchor-permalink" href="#Example-8:-Hybrid-Systems" title="Permalink"></a></h2><p>Combine continuous and discrete variables:</p><pre><code class="language-julia hljs">@variables position::Real velocity::Real
+@variables gear::Integer braking::Bool
+
+# Vehicle dynamics constraints
+vehicle_constraints = Constraints([
+    position &gt;= 0,                    # Position bounds
+    velocity &gt;= 0, velocity &lt;= 120,   # Speed limits
+    gear &gt;= 1, gear &lt;= 5,            # Gear range
+    
+    # Gear-speed relationship
+    (gear == 1) =&gt; (velocity &lt;= 30),
+    (gear == 2) =&gt; (velocity &lt;= 50),
+    (gear == 3) =&gt; (velocity &lt;= 70),
+    
+    # Braking physics
+    braking =&gt; (velocity &lt;= 60)       # Can&#39;t brake effectively at high speed
+])
+
+# Driving scenario analysis:
+issatisfiable(velocity &gt; 80 &amp; gear &lt;= 3, vehicle_constraints)     # Possible?
+isprovable(braking =&gt; (gear &lt;= 3), vehicle_constraints)          # Braking implies low gear?</code></pre><h2 id="Tips-for-Effective-SAT-Solving"><a class="docs-heading-anchor" href="#Tips-for-Effective-SAT-Solving">Tips for Effective SAT Solving</a><a id="Tips-for-Effective-SAT-Solving-1"></a><a class="docs-heading-anchor-permalink" href="#Tips-for-Effective-SAT-Solving" title="Permalink"></a></h2><h3 id="1.-Structure-Your-Queries"><a class="docs-heading-anchor" href="#1.-Structure-Your-Queries">1. Structure Your Queries</a><a id="1.-Structure-Your-Queries-1"></a><a class="docs-heading-anchor-permalink" href="#1.-Structure-Your-Queries" title="Permalink"></a></h3><p>Ask specific, well-defined questions:</p><pre><code class="language-julia hljs"># Good: Specific question
+issatisfiable(x &gt; 5 &amp; y &lt; 3, constraints)
+
+# Better: Break down complex queries
+issatisfiable(x &gt; 5, constraints) &amp;&amp; issatisfiable(y &lt; 3, constraints)</code></pre><h3 id="2.-Use-Appropriate-Granularity"><a class="docs-heading-anchor" href="#2.-Use-Appropriate-Granularity">2. Use Appropriate Granularity</a><a id="2.-Use-Appropriate-Granularity-1"></a><a class="docs-heading-anchor-permalink" href="#2.-Use-Appropriate-Granularity" title="Permalink"></a></h3><p>Choose the right level of detail:</p><pre><code class="language-julia hljs"># For rough feasibility
+issatisfiable(x &gt; 0, constraints)
+
+# For precise analysis  
+issatisfiable(x &gt;= 2.5 &amp; x &lt;= 2.6, constraints)</code></pre><h3 id="3.-Leverage-Provability"><a class="docs-heading-anchor" href="#3.-Leverage-Provability">3. Leverage Provability</a><a id="3.-Leverage-Provability-1"></a><a class="docs-heading-anchor-permalink" href="#3.-Leverage-Provability" title="Permalink"></a></h3><p>Use provability to verify invariants:</p><pre><code class="language-julia hljs"># Safety verification
+isprovable(temperature &lt;= max_temp, safety_constraints)  # Always safe?
+
+# Optimization verification
+isprovable(profit &gt;= 0, business_constraints)            # Always profitable?</code></pre><h3 id="4.-Combine-Multiple-Queries"><a class="docs-heading-anchor" href="#4.-Combine-Multiple-Queries">4. Combine Multiple Queries</a><a id="4.-Combine-Multiple-Queries-1"></a><a class="docs-heading-anchor-permalink" href="#4.-Combine-Multiple-Queries" title="Permalink"></a></h3><p>Build complex analysis from simple queries:</p><pre><code class="language-julia hljs"># Check if exactly one solution exists
+has_solution = issatisfiable(expr, constraints)
+unique_solution = has_solution &amp;&amp; isprovable(expr, constraints)</code></pre><h2 id="Common-Patterns"><a class="docs-heading-anchor" href="#Common-Patterns">Common Patterns</a><a id="Common-Patterns-1"></a><a class="docs-heading-anchor-permalink" href="#Common-Patterns" title="Permalink"></a></h2><h3 id="Feasibility-Checking"><a class="docs-heading-anchor" href="#Feasibility-Checking">Feasibility Checking</a><a id="Feasibility-Checking-1"></a><a class="docs-heading-anchor-permalink" href="#Feasibility-Checking" title="Permalink"></a></h3><pre><code class="language-julia hljs">issatisfiable(candidate_solution, constraints)</code></pre><h3 id="Invariant-Verification"><a class="docs-heading-anchor" href="#Invariant-Verification">Invariant Verification</a><a id="Invariant-Verification-1"></a><a class="docs-heading-anchor-permalink" href="#Invariant-Verification" title="Permalink"></a></h3><pre><code class="language-julia hljs">isprovable(safety_property, constraints)</code></pre><h3 id="Bounds-Analysis"><a class="docs-heading-anchor" href="#Bounds-Analysis">Bounds Analysis</a><a id="Bounds-Analysis-1"></a><a class="docs-heading-anchor-permalink" href="#Bounds-Analysis" title="Permalink"></a></h3><pre><code class="language-julia hljs">issatisfiable(variable &gt; upper_bound, constraints)  # Can exceed bound?
+isprovable(variable &gt;= lower_bound, constraints)    # Always above bound?</code></pre><h3 id="Configuration-Validation"><a class="docs-heading-anchor" href="#Configuration-Validation">Configuration Validation</a><a id="Configuration-Validation-1"></a><a class="docs-heading-anchor-permalink" href="#Configuration-Validation" title="Permalink"></a></h3><pre><code class="language-julia hljs">issatisfiable(configuration_expr, system_constraints)</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../manual/symbolics_interface/">« Symbolics.jl Interface</a><a class="docs-footer-nextpage" href="../../api/">API Reference »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.14.1 on <span class="colophon-date" title="Saturday 13 September 2025 12:34">Saturday 13 September 2025</span>. Using Julia version 1.11.6.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
