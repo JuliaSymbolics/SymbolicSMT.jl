@@ -62,7 +62,7 @@ Solve propositional logic problems:
 
 puzzle_constraints = Constraints([
     alice_tall | bob_tall | charlie_tall,              # At least one tall
-    !alice_tall | !bob_tall,                           # Alice tall ’ Bob not tall
+    !alice_tall | !bob_tall,                           # Alice tall => Bob not tall
     charlie_tall == ((alice_tall & !bob_tall) | (!alice_tall & bob_tall))  # Charlie iff exactly one
 ])
 
