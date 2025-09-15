@@ -1,7 +1,7 @@
 name = "SymbolicSMT"
 uuid = "a0d8a0e1-65bc-4be1-9afb-79a704359442"
 authors = ["Shashi Gowda <shashigowda91@gmail.com>"]
-version = "1.0.0"
+version = "1.1.0"
 
 [deps]
 Symbolics = "0c5d862f-8b57-4792-8d23-62f2024744c7"
