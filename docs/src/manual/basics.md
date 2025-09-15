@@ -97,9 +97,9 @@ SymbolicSMT.jl handles the conversion between Symbolics/SymbolicUtils types and 
 
 ### Supported Type Mappings
 
-- `Real` ’ Z3 Int (current implementation treats reals as integers)
-- `Integer` ’ Z3 Int
-- `Bool` ’ Z3 Bool
+- `Real` -> Z3 Int (current implementation treats reals as integers)
+- `Integer` -> Z3 Int
+- `Bool` -> Z3 Bool
 
 ### Automatic Conversion
 

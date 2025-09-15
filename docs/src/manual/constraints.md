@@ -167,10 +167,10 @@ Define variables within specific ranges:
 ```julia
 @variables angle::Real
 
-# Angle between 0 and 2À
+# Angle between 0 and 2*pi
 angle_constraints = Constraints([
     angle >= 0,
-    angle <= 2*À
+    angle <= 2*pi
 ])
 ```
 
