@@ -39,8 +39,8 @@ isprovable(x^2 + y^2 &lt;= 1, unit_circle)    # true</code></pre><h3 id="Example
 
 # Logical constraints: if p then q, if q then r
 implications = Constraints([
-    !p | q,  # p � q
-    !q | r   # q � r  
+    !p | q,  # p =&gt; q
+    !q | r   # q =&gt; r
 ])
 
 # If p is true, is r necessarily true?
@@ -76,7 +76,7 @@ expr2 = y + x
 
 # Are they equivalent? (Check both directions)
 left_to_right = isprovable(expr1 == expr2, constraints)   # true
-right_to_left = isprovable(expr2 == expr1, constraints)   # true</code></pre><h2 id="Solver-Limitations"><a class="docs-heading-anchor" href="#Solver-Limitations">Solver Limitations</a><a id="Solver-Limitations-1"></a><a class="docs-heading-anchor-permalink" href="#Solver-Limitations" title="Permalink"></a></h2><h3 id="Current-Limitations"><a class="docs-heading-anchor" href="#Current-Limitations">Current Limitations</a><a id="Current-Limitations-1"></a><a class="docs-heading-anchor-permalink" href="#Current-Limitations" title="Permalink"></a></h3><ul><li><strong>Real arithmetic</strong>: Currently mapped to integer arithmetic in Z3</li><li><strong>Division</strong>: Limited support for division operations</li><li><strong>Nonlinear expressions</strong>: Complex nonlinear constraints may be slow</li><li><strong>Quantifiers</strong>: No direct support for  / quantifiers</li></ul><h3 id="When-Z3-Cannot-Decide"><a class="docs-heading-anchor" href="#When-Z3-Cannot-Decide">When Z3 Cannot Decide</a><a id="When-Z3-Cannot-Decide-1"></a><a class="docs-heading-anchor-permalink" href="#When-Z3-Cannot-Decide" title="Permalink"></a></h3><p>Some problems are undecidable or too complex:</p><pre><code class="language-julia hljs"># Very complex nonlinear constraint
+right_to_left = isprovable(expr2 == expr1, constraints)   # true</code></pre><h2 id="Solver-Limitations"><a class="docs-heading-anchor" href="#Solver-Limitations">Solver Limitations</a><a id="Solver-Limitations-1"></a><a class="docs-heading-anchor-permalink" href="#Solver-Limitations" title="Permalink"></a></h2><h3 id="Current-Limitations"><a class="docs-heading-anchor" href="#Current-Limitations">Current Limitations</a><a id="Current-Limitations-1"></a><a class="docs-heading-anchor-permalink" href="#Current-Limitations" title="Permalink"></a></h3><ul><li><strong>Real arithmetic</strong>: Currently mapped to integer arithmetic in Z3</li><li><strong>Division</strong>: Limited support for division operations</li><li><strong>Nonlinear expressions</strong>: Complex nonlinear constraints may be slow</li><li><strong>Quantifiers</strong>: No direct support for universal/existential quantifiers</li></ul><h3 id="When-Z3-Cannot-Decide"><a class="docs-heading-anchor" href="#When-Z3-Cannot-Decide">When Z3 Cannot Decide</a><a id="When-Z3-Cannot-Decide-1"></a><a class="docs-heading-anchor-permalink" href="#When-Z3-Cannot-Decide" title="Permalink"></a></h3><p>Some problems are undecidable or too complex:</p><pre><code class="language-julia hljs"># Very complex nonlinear constraint
 complex = Constraints([sin(x*y) + cos(x^2 + y^2) &gt; exp(x - y)])
 
 result = issatisfiable(x &gt; 0, complex)
@@ -86,10 +86,10 @@ if issatisfiable(true, cs) == false
 end</code></pre><h3 id="Simplify-Complex-Expressions"><a class="docs-heading-anchor" href="#Simplify-Complex-Expressions">Simplify Complex Expressions</a><a id="Simplify-Complex-Expressions-1"></a><a class="docs-heading-anchor-permalink" href="#Simplify-Complex-Expressions" title="Permalink"></a></h3><p>Break down complex expressions:</p><pre><code class="language-julia hljs"># Instead of one complex constraint
 complex_expr = (x &gt; 0) &amp; (y &gt; 0) &amp; (x^2 + y^2 &lt; 1) &amp; (x + y &gt; 0.5)
 
-# Use multiple simpler constraints  
+# Use multiple simpler constraints
 simple_constraints = Constraints([
     x &gt; 0,
-    y &gt; 0, 
+    y &gt; 0,
     x^2 + y^2 &lt; 1,
     x + y &gt; 0.5
 ])</code></pre><h3 id="Test-with-Known-Solutions"><a class="docs-heading-anchor" href="#Test-with-Known-Solutions">Test with Known Solutions</a><a id="Test-with-Known-Solutions-1"></a><a class="docs-heading-anchor-permalink" href="#Test-with-Known-Solutions" title="Permalink"></a></h3><p>Verify your constraint logic with known solutions:</p><pre><code class="language-julia hljs">cs = Constraints([x &gt;= 0, y &gt;= 0, x + y &lt;= 1])
@@ -97,5 +97,5 @@ simple_constraints = Constraints([
 # Test a known feasible point
 issatisfiable(x == 0.3 &amp; y == 0.3, cs)  # Should be true
 
-# Test a known infeasible point  
-issatisfiable(x == 0.8 &amp; y == 0.8, cs)  # Should be false</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../constraints/">« Constraints</a><a class="docs-footer-nextpage" href="../symbolics_interface/">Symbolics.jl Interface »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.14.1 on <span class="colophon-date" title="Saturday 13 September 2025 12:34">Saturday 13 September 2025</span>. Using Julia version 1.11.6.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+# Test a known infeasible point
+issatisfiable(x == 0.8 &amp; y == 0.8, cs)  # Should be false</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../constraints/">« Constraints</a><a class="docs-footer-nextpage" href="../symbolics_interface/">Symbolics.jl Interface »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.14.1 on <span class="colophon-date" title="Monday 15 September 2025 12:16">Monday 15 September 2025</span>. Using Julia version 1.11.6.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
