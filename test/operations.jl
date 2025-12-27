@@ -1,10 +1,10 @@
 using SymbolicSMT
-using SymbolicUtils: Sym
+using SymbolicUtils
 using Test
 
 @testset "Symbolic Operations Tests" begin
-    x = Sym{Real}(:x)
-    y = Sym{Real}(:y)
+    # Updated for SymbolicUtils v4
+    @syms x::Real y::Real
     
     @testset "Comparison Operations" begin
         cs = Constraints([x >= 0, y >= 0])
@@ -45,7 +45,7 @@ using Test
     end
     
     @testset "Mixed Variable Types" begin
-        z = Sym{Integer}(:z)
+        @syms z::Integer
         cs = Constraints([x >= 0, z >= 0])
         
         # Test operations between Real and Integer variables

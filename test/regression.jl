@@ -1,5 +1,5 @@
 using SymbolicSMT
-using SymbolicUtils: Sym
+using SymbolicUtils
 using Test
 
 @testset "Regression Tests" begin
@@ -8,8 +8,8 @@ using Test
         # converted to Z3. Before the fix, expressions like `x + y` were incorrectly
         # converted to a single Z3 variable named "x + y" instead of the sum of x and y.
 
-        x = Sym{Integer}(:x)
-        y = Sym{Integer}(:y)
+        # Updated for SymbolicUtils v4
+        @syms x::Integer y::Integer
 
         # Constraints: x >= 1, y >= 1
         cs = Constraints([x >= 1, y >= 1])
@@ -45,8 +45,8 @@ using Test
 
     @testset "Power operator support" begin
         # Test power operator (^) which was added as part of the fix
-        x = Sym{Integer}(:x)
-        y = Sym{Integer}(:y)
+        # Updated for SymbolicUtils v4
+        @syms x::Integer y::Integer
 
         # Basic power tests
         cs = Constraints([x >= 0, x <= 3])

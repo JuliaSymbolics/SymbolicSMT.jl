@@ -1,7 +1,7 @@
 module SymbolicSMT
 
 using SymbolicUtils
-using SymbolicUtils: Sym, Term, operation, arguments, Symbolic, symtype, istree, iscall
+using SymbolicUtils: Sym, Term, operation, arguments, BasicSymbolic, symtype, istree, iscall, unwrap_const
 using Symbolics
 using Symbolics: Num, unwrap, wrap, @variables
 using Z3
@@ -36,31 +36,31 @@ function to_z3(term, ctx)
     return to_z3_tree(term, ctx)
 end
 
-# Handle symbolic variables (updated for new SymbolicUtils API)
-# Boolean expressions: use tree processing if it's a compound expression, otherwise treat as variable
-function to_z3(x::Symbolic{Bool}, ctx)
+# Handle symbolic variables (updated for SymbolicUtils v4 API)
+# In v4, BasicSymbolic type parameter is always SymReal, so we dispatch on symtype instead
+# Also in v4, constants like `10` are wrapped in BasicSymbolic, so we need to unwrap them
+function to_z3(x::BasicSymbolic, ctx)
     if iscall(x)
         return to_z3_tree(x, ctx)
     else
-        return BoolVar(string(x), ctx)
-    end
-end
+        # Check if this is a wrapped constant (new in SymbolicUtils v4)
+        val = unwrap_const(x)
+        if val !== x
+            # It's a constant - convert the unwrapped value
+            return to_z3(val, ctx)
+        end
 
-# Integer expressions: use tree processing if it's a compound expression, otherwise treat as variable
-function to_z3(x::Symbolic{<:Integer}, ctx)
-    if iscall(x)
-        return to_z3_tree(x, ctx)
-    else
-        return IntVar(string(x), ctx)
-    end
-end
-
-# Real expressions: use tree processing if it's a compound expression, otherwise treat as variable
-function to_z3(x::Symbolic{<:Real}, ctx)
-    if iscall(x)
-        return to_z3_tree(x, ctx)
-    else
-        return IntVar(string(x), ctx)  # Z3 handles reals as ints for now
+        # Simple variable - dispatch based on symtype
+        t = symtype(x)
+        if t == Bool
+            return BoolVar(string(x), ctx)
+        elseif t <: Integer
+            return IntVar(string(x), ctx)
+        elseif t <: Real
+            return IntVar(string(x), ctx)  # Z3 handles reals as ints for now
+        else
+            error("Unsupported symtype: $t for expression $x")
+        end
     end
 end
 
@@ -93,7 +93,7 @@ function to_z3_tree(term, ctx)
         args′ = map(x->to_z3(x, ctx), args)
         
         # Check for unconverted symbolic arguments
-        s = findfirst(x->x isa Symbolic, args′)
+        s = findfirst(x->x isa BasicSymbolic, args′)
         if s !== nothing
             error("$(args′[s]) of type $(typeof(args′[s])) and symtype $(symtype(args′[s])) was not converted into a z3 expression")
         end
@@ -246,7 +246,7 @@ issatisfiable(x < 0, constraints)  # false
 issatisfiable(x + y > 1, constraints)  # true
 ```
 """
-function issatisfiable(expr::Symbolic{Bool}, cs::Constraints)
+function issatisfiable(expr::BasicSymbolic, cs::Constraints)
     Z3.push(cs.solver)
     add(cs.solver, to_z3(expr, cs.context))
     res = check(cs.solver)
@@ -312,7 +312,7 @@ The boolean value itself.
 """
 issatisfiable(expr::Bool, Constraints) = expr
 
-boolsym(x::Symbolic) = symtype(x) == Bool
+boolsym(x::BasicSymbolic) = symtype(x) == Bool
 boolsym(x) = false
 
 """

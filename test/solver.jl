@@ -1,11 +1,10 @@
 using SymbolicSMT
-using SymbolicUtils: Sym
+using SymbolicUtils
 using Test
 
 @testset "SAT Solver Tests" begin
-    # Create symbolic variables
-    x = Sym{Real}(:x)
-    y = Sym{Real}(:y)
+    # Create symbolic variables (updated for SymbolicUtils v4)
+    @syms x::Real y::Real
     
     # Test satisfiability with simple constraints
     @testset "Basic Satisfiability" begin
