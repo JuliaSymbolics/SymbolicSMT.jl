@@ -1,11 +1,10 @@
 using SymbolicSMT
-using SymbolicUtils: Sym
+using SymbolicUtils
 using Test
 
 @testset "Constraint Construction Tests" begin
-    x = Sym{Real}(:x)
-    y = Sym{Real}(:y)
-    z = Sym{Integer}(:z)
+    # Updated for SymbolicUtils v4
+    @syms x::Real y::Real z::Integer
     
     @testset "Single Constraints" begin
         # Test different constraint types

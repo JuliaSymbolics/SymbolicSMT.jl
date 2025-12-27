@@ -132,11 +132,17 @@ The lower-level interface for advanced users:
 using SymbolicUtils, SymbolicSMT
 
 @syms x::Real y::Real
-constraints = Constraints([x > 0, y > 0])  
+constraints = Constraints([x > 0, y > 0])
 issatisfiable(x + y > 1, constraints)
 ```
 
 Both interfaces can be mixed in the same code.
+
+!!! note "SymbolicUtils v4 API Changes"
+    SymbolicSMT.jl v1.2+ requires SymbolicUtils v4 and Symbolics v7. Key changes:
+    - The `Symbolic` type has been renamed to `BasicSymbolic`
+    - Use `@syms x::Real` instead of `Sym{Real}(:x)` to create variables
+    - Constants in expressions are now wrapped in `BasicSymbolic` and handled automatically
 
 ## Performance Considerations
 

@@ -79,15 +79,16 @@ using Test
     
     @testset "Mixed Num and SymbolicUtils" begin
         # Test that we can mix Symbolics and SymbolicUtils variables
-        using SymbolicUtils: Sym
-        x_sym = Sym{Real}(:x_sym)
-        
+        # Updated for SymbolicUtils v4
+        using SymbolicUtils
+        SymbolicUtils.@syms x_sym::Real
+
         # Constraints with mixed types
         cs_mixed = Constraints([x > 0])  # x is Num
-        
+
         # Test with SymbolicUtils expression
         @test issatisfiable(x_sym > 0, cs_mixed) == true
-        
+
         # Test with Num expression
         @test issatisfiable(x < 0, cs_mixed) == false
     end
