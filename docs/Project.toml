@@ -7,6 +7,6 @@ Z3 = "06b161dc-0161-11ea-0f74-41f836f4024b"
 
 [compat]
 Documenter = "1"
-SymbolicUtils = "3.32"
-Symbolics = "6"
+SymbolicUtils = "4"
+Symbolics = "7"
 Z3 = "1.0"
