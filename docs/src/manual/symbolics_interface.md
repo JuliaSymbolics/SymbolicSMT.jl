@@ -145,13 +145,18 @@ mixed3 = p => (x >= 0)
 
 ### Automatic Unwrapping
 
-`Num` expressions are automatically unwrapped to `SymbolicUtils.Symbolic`:
+`Num` expressions are automatically unwrapped to `SymbolicUtils.BasicSymbolic`:
 
 ```julia
 @variables x::Real
 num_expr = x > 0                    # Symbolics.Num
-symbolic_expr = unwrap(num_expr)    # SymbolicUtils.BasicSymbolic{Bool}
+symbolic_expr = unwrap(num_expr)    # SymbolicUtils.BasicSymbolic
 ```
+
+!!! note "SymbolicUtils v4 Changes"
+    In SymbolicUtils v4, `Symbolic` has been renamed to `BasicSymbolic`. The type parameter
+    (e.g., `{Bool}`) is now always `SymReal` regardless of the actual symbolic type.
+    Use `symtype(expr)` to get the semantic type (`Bool`, `Integer`, `Real`, etc.).
 
 ### Automatic Wrapping
 
