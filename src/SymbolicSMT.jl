@@ -46,8 +46,23 @@ function to_z3(x::Symbolic{Bool}, ctx)
     end
 end
 
-to_z3(x::Symbolic{<:Integer}, ctx) = IntVar(string(x), ctx)
-to_z3(x::Symbolic{<:Real}, ctx) = IntVar(string(x), ctx)  # Z3 handles reals as ints for now
+# Integer expressions: use tree processing if it's a compound expression, otherwise treat as variable
+function to_z3(x::Symbolic{<:Integer}, ctx)
+    if iscall(x)
+        return to_z3_tree(x, ctx)
+    else
+        return IntVar(string(x), ctx)
+    end
+end
+
+# Real expressions: use tree processing if it's a compound expression, otherwise treat as variable
+function to_z3(x::Symbolic{<:Real}, ctx)
+    if iscall(x)
+        return to_z3_tree(x, ctx)
+    else
+        return IntVar(string(x), ctx)  # Z3 handles reals as ints for now
+    end
+end
 
 # Handle literal values
 to_z3(x::Integer, ctx) = IntVal(x, ctx)
@@ -122,6 +137,14 @@ function to_z3_tree(term, ctx)
             return Z3.Expr(ctx, expr_ptr)
         elseif op === (*)
             expr_ptr = Z3.Libz3.Z3_mk_mul(ctx.ctx, length(args′), [a.expr for a in args′])
+            return Z3.Expr(ctx, expr_ptr)
+        elseif op === (^)
+            # Power operation
+            expr_ptr = Z3.Libz3.Z3_mk_power(ctx.ctx, args′[1].expr, args′[2].expr)
+            return Z3.Expr(ctx, expr_ptr)
+        elseif op === (/)
+            # Division operation
+            expr_ptr = Z3.Libz3.Z3_mk_div(ctx.ctx, args′[1].expr, args′[2].expr)
             return Z3.Expr(ctx, expr_ptr)
         else
             # Try to use the operation as a function (fallback)

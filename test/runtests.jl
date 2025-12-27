@@ -10,5 +10,6 @@ if GROUP == "All" || GROUP == "Core"
         @safetestset "Constraint Construction" begin include("constraints.jl") end
         @safetestset "Symbolic Operations" begin include("operations.jl") end
         @safetestset "Symbolics.jl Frontend" begin include("symbolics_frontend.jl") end
+        @safetestset "Regression Tests" begin include("regression.jl") end
     end
 end
