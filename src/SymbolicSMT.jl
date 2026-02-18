@@ -6,7 +6,7 @@ using Symbolics
 using Symbolics: Num, unwrap, wrap, @variables
 using Z3
 
-export Constraints, issatisfiable, isprovable, resolve
+export Constraints, issatisfiable, isprovable, resolve, unsat_core
 # Re-export useful Symbolics.jl functionality
 export @variables
 
@@ -90,10 +90,10 @@ function to_z3_tree(term, ctx)
         args = arguments(term)
 
         # Convert arguments first
-        args′ = map(x->to_z3(x, ctx), args)
-        
+        args′ = map(x -> to_z3(x, ctx), args)
+
         # Check for unconverted symbolic arguments
-        s = findfirst(x->x isa BasicSymbolic, args′)
+        s = findfirst(x -> x isa BasicSymbolic, args′)
         if s !== nothing
             error("$(args′[s]) of type $(typeof(args′[s])) and symtype $(symtype(args′[s])) was not converted into a z3 expression")
         end
@@ -192,16 +192,21 @@ struct Constraints
     constraints::Vector
     solver::Z3.Solver
     context::Z3.Context
+    labels::Vector{Z3.Expr}
 
-    function Constraints(cs::Vector, solvertype="QF_NRA")
+    function Constraints(cs::Vector, solvertype = "QF_NRA")
         ctx = Context()
         s = Solver(ctx)
 
-        for c in cs
-            add(s, to_z3(c, ctx))
+        labels = Z3.Expr[]
+        for (i, c) in enumerate(cs)
+            label = BoolVar("constraint_$i", ctx)
+            push!(labels, label)
+            z3_expr = to_z3(c, ctx)
+            Z3.Libz3.Z3_solver_assert_and_track(ctx.ctx, s.solver, z3_expr.expr, label.expr)
         end
 
-        new(cs, s, ctx)
+        return new(cs, s, ctx, labels)
     end
 end
 
@@ -213,6 +218,7 @@ function Base.show(io::IO, c::Constraints)
         print(io, cs[i])
         i != length(cs) && println(io, " ∧")
     end
+    return
 end
 
 """
@@ -250,7 +256,7 @@ function issatisfiable(expr::BasicSymbolic, cs::Constraints)
     Z3.push(cs.solver)
     add(cs.solver, to_z3(expr, cs.context))
     res = check(cs.solver)
-    Z3.pop(cs.solver,1)
+    Z3.pop(cs.solver, 1)
     if string(res) == "sat"
         return true
     elseif string(res) == "unsat"
@@ -293,7 +299,7 @@ isprovable(x > y, constraints)  # false
 """
 function isprovable(expr, cs::Constraints)
     sat = issatisfiable(expr, cs)
-    sat === true ? !issatisfiable(!expr, cs) : false
+    return sat === true ? !issatisfiable(!expr, cs) : false
 end
 
 """
@@ -346,8 +352,69 @@ resolve(x > 10, constraints)  # x > 10 (cannot resolve)
 ```
 """
 function resolve(x, ctx)
-     isprovable(x, ctx) === true ?
+    return isprovable(x, ctx) === true ?
         true : isprovable(!(x), ctx) === true ? false : x
+end
+
+"""
+    unsat_core(constraints::Constraints)
+
+Extract an unsatisfiable core from a set of constraints.
+
+When the constraints are unsatisfiable (contradictory), this function returns
+the indices (1-based) of a minimal-ish subset of constraints that are
+themselves unsatisfiable. This is useful for diagnosing which constraints
+conflict with each other.
+
+Internally uses Z3's `Z3_solver_get_unsat_core` with tracked assertions.
+
+# Arguments
+- `constraints::Constraints`: The constraint set to analyze
+
+# Returns
+- `Vector{Int}`: Indices into the original constraint vector that form an unsat core,
+  or an empty vector if the constraints are satisfiable
+
+# Examples
+```julia
+using SymbolicUtils, SymbolicSMT
+@syms x::Real y::Real
+
+# Constraints 1 and 2 contradict each other; constraint 3 is irrelevant
+cs = Constraints([x > 0, x < -1, y > 0])
+core = unsat_core(cs)  # [1, 2]
+
+# Retrieve the conflicting constraints
+cs.constraints[core]
+```
+"""
+function unsat_core(cs::Constraints)
+    res = check(cs.solver)
+    if string(res) != "unsat"
+        return Int[]
+    end
+
+    core_vec = Z3.Libz3.Z3_solver_get_unsat_core(cs.context.ctx, cs.solver.solver)
+    count = Int(Z3.Libz3.Z3_ast_vector_size(cs.context.ctx, core_vec))
+
+    # Collect the label strings that appear in the core
+    core_label_set = Set{String}()
+    for i in 0:(count - 1)
+        ast = Z3.Libz3.Z3_ast_vector_get(cs.context.ctx, core_vec, i)
+        label_str = unsafe_string(Z3.Libz3.Z3_ast_to_string(cs.context.ctx, ast))
+        push!(core_label_set, label_str)
+    end
+
+    # Map labels back to 1-based constraint indices
+    indices = Int[]
+    for (i, label) in enumerate(cs.labels)
+        label_str = unsafe_string(Z3.Libz3.Z3_ast_to_string(cs.context.ctx, label.expr))
+        if label_str in core_label_set
+            push!(indices, i)
+        end
+    end
+
+    return indices
 end
 
 # ========================================
@@ -379,7 +446,7 @@ constraints = Constraints([x > 0, y >= 0, x + y < 10])
 issatisfiable(x + y > 5, constraints)
 ```
 """
-function Constraints(constraints::Vector{Num}, solvertype="QF_NRA")
+function Constraints(constraints::Vector{Num}, solvertype = "QF_NRA")
     # Unwrap Num to SymbolicUtils expressions
     symbolic_constraints = [unwrap(c) for c in constraints]
     return Constraints(symbolic_constraints, solvertype)

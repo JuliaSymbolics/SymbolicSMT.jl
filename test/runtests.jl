@@ -5,11 +5,26 @@ const GROUP = get(ENV, "GROUP", "All")
 
 if GROUP == "All" || GROUP == "Core"
     @testset "SymbolicSMT.jl Tests" begin
-        @safetestset "Basic Functionality" begin include("basic.jl") end
-        @safetestset "SAT Solver Tests" begin include("solver.jl") end
-        @safetestset "Constraint Construction" begin include("constraints.jl") end
-        @safetestset "Symbolic Operations" begin include("operations.jl") end
-        @safetestset "Symbolics.jl Frontend" begin include("symbolics_frontend.jl") end
-        @safetestset "Regression Tests" begin include("regression.jl") end
+        @safetestset "Basic Functionality" begin
+            include("basic.jl")
+        end
+        @safetestset "SAT Solver Tests" begin
+            include("solver.jl")
+        end
+        @safetestset "Constraint Construction" begin
+            include("constraints.jl")
+        end
+        @safetestset "Symbolic Operations" begin
+            include("operations.jl")
+        end
+        @safetestset "Symbolics.jl Frontend" begin
+            include("symbolics_frontend.jl")
+        end
+        @safetestset "Regression Tests" begin
+            include("regression.jl")
+        end
+        @safetestset "Unsat Core Tests" begin
+            include("unsat_core.jl")
+        end
     end
 end
