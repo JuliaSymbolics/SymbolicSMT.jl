@@ -372,10 +372,8 @@ Internally uses Z3's `Z3_solver_get_unsat_core` with tracked assertions.
 - `constraints::Constraints`: The constraint set to analyze
 
 # Returns
-- `Vector{Int}`: Indices into the original constraint vector that form an unsat core
-
-# Throws
-- `ErrorException` if the constraints are satisfiable (no unsat core exists)
+- `Vector{Int}`: Indices into the original constraint vector that form an unsat core,
+  or an empty vector if the constraints are satisfiable
 
 # Examples
 ```julia
@@ -393,7 +391,7 @@ cs.constraints[core]
 function unsat_core(cs::Constraints)
     res = check(cs.solver)
     if string(res) != "unsat"
-        error("constraints are satisfiable; unsat core is only available when constraints are unsatisfiable")
+        return Int[]
     end
 
     core_vec = Z3.Libz3.Z3_solver_get_unsat_core(cs.context.ctx, cs.solver.solver)

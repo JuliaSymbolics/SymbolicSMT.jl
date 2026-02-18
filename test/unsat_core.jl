@@ -31,11 +31,11 @@ using Test
         @test 3 in core
     end
 
-    @testset "Error on satisfiable constraints" begin
+    @testset "Empty for satisfiable constraints" begin
         @syms x::Real y::Real
 
         cs = Constraints([x > 0, y > 0])
-        @test_throws ErrorException unsat_core(cs)
+        @test unsat_core(cs) == Int[]
     end
 
     @testset "Two-constraint contradiction" begin
