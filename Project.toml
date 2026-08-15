@@ -10,7 +10,7 @@ Z3 = "06b161dc-0161-11ea-0f74-41f836f4024b"
 
 [compat]
 Symbolics = "7"
-SymbolicUtils = "4"
+SymbolicUtils = "4.3"
 Z3 = "1.0"
 julia = "1"
 
