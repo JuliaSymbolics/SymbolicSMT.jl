@@ -6,6 +6,7 @@ import Symbolics
 using Symbolics: Num, unwrap, wrap, @variables
 import Z3
 using Z3: BoolVal, BoolVar, Context, Float64Val, IntVal, IntVar, Solver, add, check
+using PrecompileTools: @compile_workload, @setup_workload
 
 export Constraints, issatisfiable, isprovable, resolve, unsat_core
 # Re-export useful Symbolics.jl functionality
@@ -553,6 +554,17 @@ function resolve(expr::Num, cs::Constraints)
     result = resolve(unwrap(expr), cs)
     # If result is the original SymbolicUtils expression, wrap it back to Num
     return result isa Bool ? result : wrap(result)
+end
+
+@setup_workload begin
+    @variables x::Real
+    constraints = Constraints([x > 0])
+
+    @compile_workload begin
+        issatisfiable(x > 1, constraints)
+        isprovable(x > 0, constraints)
+        resolve(x > 1, constraints)
+    end
 end
 
 end # module
