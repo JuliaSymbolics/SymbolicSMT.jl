@@ -86,6 +86,7 @@ resolve(t > 12, time_constraints)   # t > 12 (unchanged)
 ## Working with Different Variable Types
 
 ### Real Variables
+
 ```julia
 @variables x::Real y::Real temperature::Real
 
@@ -93,7 +94,8 @@ constraints = Constraints([x >= 0, y >= 0, temperature > 273.15])
 issatisfiable(x + y > temperature, constraints)
 ```
 
-### Integer Variables  
+### Integer Variables
+
 ```julia
 @variables n::Integer count::Integer age::Integer
 
@@ -102,6 +104,7 @@ isprovable(n > 0, constraints)  # true
 ```
 
 ### Boolean Variables
+
 ```julia
 @variables valid::Bool active::Bool
 
@@ -131,9 +134,9 @@ isprovable(a >= 0, quadratic_constraints)  # true
 
 Understanding the return values:
 
-- **`true`**: The expression is satisfiable/provable
-- **`false`**: The expression is unsatisfiable/not provable  
-- **`nothing`**: The solver cannot determine the result (rare)
+  - **`true`**: The expression is satisfiable/provable
+  - **`false`**: The expression is unsatisfiable/not provable
+  - **`nothing`**: The solver cannot determine the result (rare)
 
 For `resolve`, boolean results are returned as `Bool`, while unresolved expressions are returned as `Num`.
 
@@ -151,6 +154,6 @@ issatisfiable(x + y > 1, constraints)
 
 ## Next Steps
 
-- Read the [Manual](manual/basics.md) for deeper understanding of concepts
-- Check out [Tutorials](tutorials/basic_examples.md) for more complex examples
-- Browse the [API Reference](api.md) for complete function documentation
+  - Read the [Manual](manual/basics.md) for deeper understanding of concepts
+  - Check out [Tutorials](tutorials/basic_examples.md) for more complex examples
+  - Browse the [API Reference](api.md) for complete function documentation

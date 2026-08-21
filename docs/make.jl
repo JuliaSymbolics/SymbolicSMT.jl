@@ -14,13 +14,13 @@ function make_docs()
             assets = String[],
             mathengine = Documenter.MathJax3(
                 Dict(
-                    :loader => Dict("load" => ["[tex]/physics"]),
-                    :tex => Dict(
-                        "inlineMath" => [["\$", "\$"], ["\\(", "\\)"]],
-                        "tags" => "ams",
-                        "packages" => ["base", "ams", "autoload", "physics"]
-                    )
+                :loader => Dict("load" => ["[tex]/physics"]),
+                :tex => Dict(
+                    "inlineMath" => [["\$", "\$"], ["\\(", "\\)"]],
+                    "tags" => "ams",
+                    "packages" => ["base", "ams", "autoload", "physics"]
                 )
+            )
             )
         ),
         pages = [
@@ -30,12 +30,12 @@ function make_docs()
                 "manual/basics.md",
                 "manual/constraints.md",
                 "manual/sat_solving.md",
-                "manual/symbolics_interface.md",
+                "manual/symbolics_interface.md"
             ],
             "Tutorials" => [
                 "tutorials/basic_examples.md",
             ],
-            "API Reference" => "api.md",
+            "API Reference" => "api.md"
         ],
         checkdocs = :exports
     )

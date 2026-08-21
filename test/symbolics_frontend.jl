@@ -122,9 +122,9 @@ using Test
         # Test complex constraints
         cs_complex = Constraints(
             [
-                a^2 + b^2 <= 1,  # Unit circle
-                c >= 0,            # Positive c
-            ]
+            a^2 + b^2 <= 1,  # Unit circle
+            c >= 0            # Positive c
+        ]
         )
 
         # Test complex expressions

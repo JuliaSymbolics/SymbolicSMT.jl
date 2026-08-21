@@ -133,7 +133,8 @@ function to_z3_tree(term, ctx)
                 expr_ptr = Z3.Libz3.Z3_mk_unary_minus(ctx.ctx, args′[1].expr)
             else
                 # Binary minus
-                expr_ptr = Z3.Libz3.Z3_mk_sub(ctx.ctx, length(args′), [a.expr for a in args′])
+                expr_ptr = Z3.Libz3.Z3_mk_sub(ctx.ctx, length(args′), [a.expr
+                                                                       for a in args′])
             end
             return Z3.Expr(ctx, expr_ptr)
         elseif op === (*)
@@ -354,7 +355,7 @@ resolve(x > 10, constraints)  # x > 10 (cannot resolve)
 """
 function resolve(x, ctx)
     return isprovable(x, ctx) === true ?
-        true : isprovable(!(x), ctx) === true ? false : x
+           true : isprovable(!(x), ctx) === true ? false : x
 end
 
 """
