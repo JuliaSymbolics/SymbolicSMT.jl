@@ -23,6 +23,9 @@ if GROUP == "All" || GROUP == "Core"
         @safetestset "Regression Tests" begin
             include("regression.jl")
         end
+        @safetestset "Precompile workload" begin
+            include("precompile_workload.jl")
+        end
         @safetestset "Unsat Core Tests" begin
             include("unsat_core.jl")
         end
