@@ -13,6 +13,7 @@ Constraints
 ```@docs
 issatisfiable
 isprovable
+unsat_core
 ```
 
 ## Expression Resolution

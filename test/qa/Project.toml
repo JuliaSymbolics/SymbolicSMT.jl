@@ -1,0 +1,8 @@
+[deps]
+SciMLTesting = "09d9d899-5365-40a9-917a-5f67fddea283"
+SymbolicSMT = "a0d8a0e1-65bc-4be1-9afb-79a704359442"
+
+[compat]
+SciMLTesting = "2.4"
+SymbolicSMT = "1.4"
+julia = "1.10"
