@@ -151,6 +151,6 @@ issatisfiable(x + y > 1, constraints)
 
 ## Next Steps
 
-- Read the [Manual](@ref) for deeper understanding of concepts
-- Check out [Tutorials](@ref) for more complex examples
-- Browse the [API Reference](@ref) for complete function documentation
+- Read the [Manual](manual/basics.md) for deeper understanding of concepts
+- Check out [Tutorials](tutorials/basic_examples.md) for more complex examples
+- Browse the [API Reference](api.md) for complete function documentation

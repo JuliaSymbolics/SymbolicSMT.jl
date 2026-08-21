@@ -1,10 +1,11 @@
 module SymbolicSMT
 
-using SymbolicUtils
-using SymbolicUtils: Sym, Term, operation, arguments, BasicSymbolic, symtype, istree, iscall, unwrap_const
-using Symbolics
+import SymbolicUtils
+using SymbolicUtils: operation, arguments, BasicSymbolic, symtype, iscall, unwrap_const
+import Symbolics
 using Symbolics: Num, unwrap, wrap, @variables
-using Z3
+import Z3
+using Z3: BoolVal, BoolVar, Context, Float64Val, IntVal, IntVar, Solver, add, check
 
 export Constraints, issatisfiable, isprovable, resolve, unsat_core
 # Re-export useful Symbolics.jl functionality
